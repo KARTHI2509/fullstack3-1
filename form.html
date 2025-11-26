@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Simple AJAX Form</h3>
+
+Name: <input id="name"><br><br>
+
+Email: <input id="email" type="email" required><br><br>
+
+<button onclick="submitData()">Submit</button>
+<br><br>
+
+<button onclick="getData()">Retrieve Data</button>
+
+<p id="msg"></p>
+<div id="result"></div>
+
+<script>
+function submitData() {
+    let email = document.getElementById("email");
+
+    // Browser validation (no if needed)
+    if (!email.reportValidity()) return;
+
+    let x = new XMLHttpRequest();
+    x.open("POST", "https://jsonplaceholder.typicode.com/posts");
+    x.onload = function () {
+        document.getElementById("msg").innerText = "Submitted!";
+    };
+    x.send(JSON.stringify({
+        name: document.getElementById("name").value,
+        email: email.value
+    }));
+}
+
+function getData() {
+    let x = new XMLHttpRequest();
+    x.open("GET", "https://jsonplaceholder.typicode.com/posts/1");
+    x.onload = function () {
+        let data = JSON.parse(x.responseText);
+        document.getElementById("result").innerHTML = "Title: " + data.title;
+    };
+    x.send();
+}
+</script>
+
+</body>
+</html>
