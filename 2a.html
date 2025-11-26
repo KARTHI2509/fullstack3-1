@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple JS Example</title>
+</head>
+<body>
+    <h2>JavaScript Example</h2>
+    <p id="output"></p>
+
+    <script>
+        let name = "Ragu";
+        let age = 20;
+        const college = "ABC Engineering College";
+
+        function greet(n) {
+            return "Hello " + n + ", welcome!";
+        }
+
+        let student = {
+            name: name,
+            age: age,
+            course: "CSE (AI & ML)",
+            message: function() {
+                return greet(this.name);
+            }
+        };
+
+        let text =
+            "Student Name: " + student.name + "<br>" +
+            "Age: " + student.age + "<br>" +
+            "College: " + college + "<br>" +
+            "Course: " + student.course + "<br>" +
+            "Message: " + student.message();
+
+        document.getElementById("output").innerHTML = text;
+    </script>
+</body>
+</html>
