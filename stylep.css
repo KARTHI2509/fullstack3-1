@@ -1,0 +1,30 @@
+body{
+	font-family:Arial;
+	padding:0;
+	margin:0;
+	background-color:green;
+}
+header{
+	background:black;
+	padding:1rem;
+	color:white;
+	text-align:center;
+}
+nav a{
+	magin:0 10px;
+	padding:1rem;
+	text-decoration:none;
+}
+main{
+	padding:2rem;
+}
+footer{
+	background:black;
+	position:fixed;
+	bottom:0;
+	padding:1rem;
+	text-align:center;
+	width:100%;
+	color:white;
+}
+	
