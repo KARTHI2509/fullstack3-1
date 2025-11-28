@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Simple AJAX Form</h3>
+
+Name: <input id="name"><br><br>
+
+Email: <input id="email" type="email" required><br><br>
+
+<button onclick="submitData()">Submit</button>
+<br><br>
+
+<button onclick="getData()">Retrieve Data</button>
+
+<p id="msg"></p>
+<div id="result"></div>
+
+<script>
+function submitData() {
+    let email = document.getElementById("email");
+
+    if (!email.reportValidity()) return;
+
+    let x = new XMLHttpRequest();
+    x.open("POST", "https://jsonplaceholder.typicode.com/posts");
+    x.onload = function () {
+        document.getElementById("msg").innerText = "Submitted!";
+    };
+
+    x.send(JSON.stringify({
+        name: document.getElementById("name").value,
+        email: email.value
+    }));
+}
+
+function getData() {
+    let x = new XMLHttpRequest();
+    x.open("GET", "https://jsonplaceholder.typicode.com/posts/1");
+
+    x.onload = function () {
+
+        // Get values YOU entered
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+
+        // Display your details
+        document.getElementById("result").innerHTML =
+            "Name: " + name + "<br>" +
+            "Email: " + email + "<br>";
+    };
+
+    x.send();
+}
+</script>
+
+</body>
+</html>
+CREATE TABLE Students (
+  student_id INT PRIMARY KEY,
+  name VARCHAR(50),
+  email VARCHAR(50)
+);
+
+CREATE TABLE Courses (
+  course_id INT PRIMARY KEY,
+  course_name VARCHAR(50)
+);
+
+CREATE TABLE Enrollments (
+  id INT PRIMARY KEY,
+  student_id INT,
+  course_id INT,
+  FOREIGN KEY (student_id) REFERENCES Students(student_id),
+  FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+);
+INSERT INTO Students VALUES (1, 'Karthi', 'karthik@gmail.com');
+SELECT * FROM Students;
+UPDATE Students SET name = 'Karthik Kumar' WHERE student_id = 1;
+SELECT * FROM Students;
+DELETE FROM Students WHERE student_id = 1;
+SELECT *FROM Students;
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
+
+@RestController
+public class HomeController {
+
+    List<String> list = new ArrayList<>();
+
+    @GetMapping("/")
+    public String home() {
+        return "Welcome to the Home Page!";
+    }
+
+    // CREATE - Add item
+    @GetMapping("/add/{item}")
+    public String add(@PathVariable String item) {
+        list.add(item);
+        return "Added: " + item;
+    }
+
+    // READ - Show all items
+    @GetMapping("/show")
+    public List<String> show() {
+        return list;
+    }
+
+    // DELETE - Remove item
+    @GetMapping("/remove/{item}")
+    public String remove(@PathVariable String item) {
+        list.remove(item);
+        return "Removed: " + item;
+    }
+}
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.GetMapping;;
+import org.springframework.web.bind.annotation.RestController;
+@RestController
+public class HomeController {
+
+    @GetMapping
+    public String home() {
+        return "Welcome to the Home Page!";
+    }
+}
+class Student {            // non-public class
+    String name;
+    void sayHello() {
+        System.out.println("Hello, my name is " + name);
+    }
+}
+
+public class Main {        // public class (file name must be Main.java)
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.name = "Alice";
+        s.sayHello();
+    }
+}
+import React,{useState,useEffect} from "react";
+import axios from "axios";
+export default function App(){
+  const [posts,setPosts]=useState([]);
+  useEffect(()=>{
+    axios.get("https://jsonplaceholder.typicode.com/Posts")
+     .then(res=>setPosts(res.data));
+  },[]);
+  
+  return(
+    <div>
+      <h2> posts</h2>
+      {posts.slice(0,5).map(p=><p key={p.id}>{p.title}</p>)}
+          </div>
+
+  )
+
+}
+
+#
+import React,{useState} from "react";
+export default function App(){
+  const[data,setData]=useState({name:"",email:"",message:""});
+  const handleChange=(e)=>setData({...data,[e.target.name]:e.target.value});
+  const handleSubmit =(e)=>{
+    e.preventDefault();
+    alert(name:${data.name},email:${data.email},message:${data.message});
+    setData({name:"",email:"",message:""});
+  };
+  return(
+    <form onSubmit={handleSubmit} style={{padding:"20 px"}}>
+      <h2>Contact form</h2>
+      <input name="name" placeholder="name" value={data.name} onChange={handleChange} required /><br/><br/>
+      <input name="email" placeholder="email" value={data.email} onChange={handleChange} required /><br/><br/>
+      <textarea name="message" placeholder="message" value={data.message} onChange={handleChange} required/><br/><br/>
+      <button>submit</button>
+
+    </form>
+
+  );
+
+}
+import React from "react";
+import {createStore} from "redux";
+import {Provider,useDispatch,useSelector} from "react-redux";
+function counterReducer(state={count:0},action){
+  switch(action.type){
+    case "Increment":
+      return {count :state.count+1};
+    case "Decrement":
+      return {count:state.count-1};
+    default:
+      return state;
+
+  }
+}
+const store=createStore(counterReducer);
+function Counter(){
+  const count=useSelector((state)=>state.count);
+  const dispatch=useDispatch();
+  return(
+    <div>
+    <h1> simple counter redux</h1><br/>
+    <h2> {count}</h2>
+    <button onClick={()=>dispatch ({type:"Increment"})}>+</button>
+    <button onClick={()=>dispatch({type:"Decrement"})}>- </button>
+
+    </div>
+
+
+  );
+}
+export default function App(){
+  return(
+    <Provider store={store}>
+      <Counter/>
+    </Provider>
+  )
+}
+import {BrowserRouter as Router,Routes,Route,Link} from "react-router-dom";
+function Home(){
+  return <h2>home page</h2>;
+}
+function About(){
+  return <h2>about</h2>;
+}
+function Contact(){
+  return <h2>contact  </h2>;
+}
+export default function App(){
+  return(
+    <Router>
+      <Link to="/">home</Link>|{" "}
+      <Link to="/about">about</Link>|{" "}
+      <Link to="/contact">contact</Link>|{" "}
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/about" element={<About/>}/>
+        <Route path="/contact" element={<Contact/>}/>
+      </Routes>
+    </Router>
+  );
+}
+<!DOCTYPE html>
+<body>
+
+<div id="output"></div>
+
+<script>
+let data = [
+  { name: "Apple", price: 30 },
+  { name: "Banana", price: 10 }
+];
+
+let html = "";
+data.forEach(item => {
+  html += item.name + " - " + item.price + "<br>";
+});
+
+document.getElementById("output").innerHTML = html;
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h3>Slider</h3>
+<input type="range" oninput="v.innerText=this.value">
+<span id="v">50</span>
+
+<h3>Tabs</h3>
+<button class="tab" data-t="t1" onclick="$('p').hide(); $('#t1').show();">Tab 1</button>
+<button class="tab" data-t="t2" onclick="$('p').hide(); $('#t2').show();">Tab 2</button>
+
+<p id="t1">This is Tab 1 content</p>
+<p id="t2" style="display:none;">This is Tab 2 content</p>
+
+<h3>Modal</h3>
+<button id="open" onclick="$('#modal').show();">Open Modal</button>
+
+<div id="modal" style="display:none;">
+  This is a simple modal! 
+  <button id="close" onclick="$('#modal').hide();">Close</button>
+</div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<form id="form">
+    Name: <input id="name"><br>
+    Email: <input id="email"><br>
+    Password: <input type="password" id="pass"><br>
+    Confirm: <input type="password" id="cpass"><br>
+    <button>Submit</button>
+</form>
+
+<p id="msg"></p>
+
+<script>
+$("#form").submit(function(e){
+    e.preventDefault();
+
+    if($("#pass").val() != $("#cpass").val()){
+        $("#msg").text("Passwords do not match");
+    } else {
+        $("#msg").text("Registered!");
+    }
+});
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Simple AJAX Form</h3>
+
+Name: <input id="name"><br><br>
+
+Email: <input id="email" type="email" required><br><br>
+
+<button onclick="submitData()">Submit</button>
+<br><br>
+
+<button onclick="getData()">Retrieve Data</button>
+
+<p id="msg"></p>
+<div id="result"></div>
+
+<script>
+function submitData() {
+    let email = document.getElementById("email");
+
+    // Browser validation (no if needed)
+    if (!email.reportValidity()) return;
+
+    let x = new XMLHttpRequest();
+    x.open("POST", "https://jsonplaceholder.typicode.com/posts");
+    x.onload = function () {
+        document.getElementById("msg").innerText = "Submitted!";
+    };
+    x.send(JSON.stringify({
+        name: document.getElementById("name").value,
+        email: email.value
+    }));
+}
+
+function getData() {
+    let x = new XMLHttpRequest();
+    x.open("GET", "https://jsonplaceholder.typicode.com/posts/1");
+    x.onload = function () {
+        let data = JSON.parse(x.responseText);
+        document.getElementById("result").innerHTML = "Title: " + data.title;
+    };
+    x.send();
+}
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple JS Example</title>
+</head>
+<body>
+    <h2>JavaScript Example</h2>
+    <p id="output"></p>
+
+    <script>
+        let name = "Ragu";
+        let age = 20;
+        const college = "ABC Engineering College";
+
+        function greet(n) {
+            return "Hello " + n + ", welcome!";
+        }
+
+        let student = {
+            name: name,
+            age: age,
+            course: "CSE (AI & ML)",
+            message: function() {
+                return greet(this.name);
+            }
+        };
+
+        let text =
+            "Student Name: " + student.name + "<br>" +
+            "Age: " + student.age + "<br>" +
+            "College: " + college + "<br>" +
+            "Course: " + student.course + "<br>" +
+            "Message: " + student.message();
+
+        document.getElementById("output").innerHTML = text;
+    </script>
+</body>
+</html>
